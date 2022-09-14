@@ -1,15 +1,22 @@
 import ReCAPTCHA from "react-google-recaptcha"
 import React, { useRef } from 'react';
+import axios from "axios";
 
 const Form = () =>{
 
     const captchaRef = useRef(null)
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         const token = captchaRef.current.getValue();
         captchaRef.current.reset();
-        console.log(token)
+
+        await axios.post(process.env.REACT_APP_API_URL, {token})
+        .then(res => console.log(res))
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
 
